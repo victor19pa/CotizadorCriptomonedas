@@ -5,7 +5,7 @@ const Cotizacion = ({resultado}) => {
     if(Object.keys(resultado).length === 0) return null
     return (
         <View style={styles.resultado}>
-            <Text style={styles.texto}>Precio: {' '}
+            <Text style={[styles.texto, styles.precio]}>
                 <Text style={styles.span}>{resultado.PRICE}</Text>
             </Text>
             <Text style={styles.texto}>Precio mas alto del dia: {' '}
@@ -26,16 +26,21 @@ const Cotizacion = ({resultado}) => {
 
 const styles = StyleSheet.create({
     resultado:{
-
+        backgroundColor: '#5E49E2',
+        padding: 20,
+        marginVertical: 20
     },
     texto:{
-
+        color: '#FFF',
+        fontFamily: 'Lato-Regular',
+        fontSize: 20,
+        marginBottom: 10
     },
-    precio:{
-
+    precio: {
+        fontSize: 38
     },
-    span:{
-
+    span: {
+        fontFamily: 'Lato-Black',
     }
 })
 export default Cotizacion
