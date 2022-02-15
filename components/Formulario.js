@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Alert, StyleSheet, Text, TouchableHighlight, View } from 'react-native'
 import {Picker} from '@react-native-picker/picker';
 import axios, { Axios } from 'axios';
 
-const Formulario = () => {
+
+const Formulario = ({moneda, criptomoneda, setMoneda, setCriptomoneda, setConsultarAPI}) => {
     
-    const [ moneda, setMoneda] = useState('')
-    const [ criptomoneda, setCriptomoneda ] = useState('')
-    const [ criptomonedas, setCriptomonedas ] = useState('')
+    const [ criptomonedas, setCriptomonedas ] = useState([])
 
     useEffect(() => {
         const consultarAPI = async () => {
@@ -18,8 +17,30 @@ const Formulario = () => {
         consultarAPI()
     },[])
 
+    //almacena los valores del picker moneda
     const obtenerMoneda = (moneda) => {
         setMoneda(moneda)
+    }
+    const obtenerCriptmoneda = (cripto) => {
+        setCriptomoneda(cripto)
+    }
+    const cotizarPrecio = () => {
+        if( moneda.trim() === '' || criptomoneda.trim() === ''){
+            mostrarAlerta()
+            return
+        }
+        //se p asa la validacion
+        //console.log('cotizando...')
+        setConsultarAPI(true)
+    }
+    const mostrarAlerta = () => {
+        Alert.alert(
+            'Error...',
+            'Ambos campos son obligatorios',
+            [
+                {text: 'OK'}
+            ]
+        )
     }
 
     return (
@@ -28,6 +49,7 @@ const Formulario = () => {
             <Picker
                 selectedValue={moneda}
                 onValueChange={ moneda => obtenerMoneda(moneda)}
+                itemStyle={{height:120}}
             >
                 <Picker.Item label='-Seleccione-' value=""/>
                 <Picker.Item label='Dolar USD' value="USD"/>
@@ -37,6 +59,27 @@ const Formulario = () => {
             </Picker>
 
             <Text style={styles.label}>Criptomoneda</Text>
+            <Picker
+                selectedValue={criptomoneda}
+                onValueChange={ cripto => obtenerCriptmoneda(cripto)}
+                itemStyle={{height:120}}
+            >
+                <Picker.Item label='-Seleccione-' value=""/>
+                { criptomonedas.map( cripto => (
+                    <Picker.Item  
+                        key={cripto.CoinInfo.Id}
+                        label={cripto.CoinInfo.FullName}
+                        value={cripto.CoinInfo.Name}
+                    />
+                ))}
+            </Picker>
+
+            <TouchableHighlight
+                style={styles.btnCotizar}
+                onPress={ () => cotizarPrecio()}
+            >
+                <Text style={styles.txtCotizar}>Cotizar</Text>
+            </TouchableHighlight>
         </View>
     )
 }
@@ -47,6 +90,18 @@ const styles = StyleSheet.create({
         textTransform:'uppercase',
         fontSize: 22,
         marginVertical: 20,
+    },
+    btnCotizar:{
+        backgroundColor: '#5E49E2',
+        padding: 10,
+        marginTop: 20
+    },
+    txtCotizar:{
+        fontFamily: 'Lato-Black',
+        textTransform: 'uppercase',
+        color: '#FFF',
+        fontSize: 18, 
+        textAlign: 'center'
     }
 })
 
