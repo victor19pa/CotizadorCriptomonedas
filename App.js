@@ -16,13 +16,14 @@ import Formulario from './components/Formulario';
 import Header from './components/Header';
 
 const App = () => {
-
-  const [ moneda, setMoneda] = useState('')
+  //hooks state
+  const [ moneda, setMoneda ] = useState('')
   const [ criptomoneda, setCriptomoneda ] = useState('')
   const [ consultarAPI, setConsultarAPI ] = useState(false)
   const [ resultado, setResultado ] = useState({})
-  const [ cargando, setCargando] = useState(false)
+  const [ cargando, setCargando ] = useState(false)
 
+  //uso de api
   useEffect(() => {
     const cotizarCriptomoneda = async () => {
       if(consultarAPI){
@@ -47,11 +48,14 @@ const App = () => {
   return (
     <>
       <ScrollView>
+        {/* componente header */}
         <Header/>
+        {/* IMG */}
         <Image 
           style={styles.imagen}
           source={require('./assets/img/cryptomonedas.png')}
         />
+        {/* Componente formulario */}
         <View style={styles.contenido}>
           <Formulario
             moneda={ moneda }
@@ -61,6 +65,7 @@ const App = () => {
             setConsultarAPI={ setConsultarAPI }
           />
         </View>
+        {/* componente condicional si carga o muestra cotizacion */}
         <View style={{marginTop: 40}}>
           {componente}
         </View>

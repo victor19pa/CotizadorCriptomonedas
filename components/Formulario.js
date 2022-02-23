@@ -8,6 +8,7 @@ const Formulario = ({moneda, criptomoneda, setMoneda, setCriptomoneda, setConsul
     
     const [ criptomonedas, setCriptomonedas ] = useState([])
 
+    //consulta api sobre criptomonedas
     useEffect(() => {
         const consultarAPI = async () => {
             const url = 'https://min-api.cryptocompare.com/data/top/totalvolfull?limit=10&tsym=USD'
@@ -25,12 +26,14 @@ const Formulario = ({moneda, criptomoneda, setMoneda, setCriptomoneda, setConsul
         setCriptomoneda(cripto)
     }
     const cotizarPrecio = () => {
+        //validacion
         if( moneda.trim() === '' || criptomoneda.trim() === ''){
             mostrarAlerta()
             return
         }
-        //se p asa la validacion
+        //si pasa la validacion
         //console.log('cotizando...')
+        //funcion de appjs
         setConsultarAPI(true)
     }
     const mostrarAlerta = () => {
@@ -46,6 +49,7 @@ const Formulario = ({moneda, criptomoneda, setMoneda, setCriptomoneda, setConsul
     return (
         <View>
             <Text style={styles.label}>Moneda</Text>
+            {/* Picker moneda */}
             <Picker
                 selectedValue={moneda}
                 onValueChange={ moneda => obtenerMoneda(moneda)}
@@ -59,6 +63,7 @@ const Formulario = ({moneda, criptomoneda, setMoneda, setCriptomoneda, setConsul
             </Picker>
 
             <Text style={styles.label}>Criptomoneda</Text>
+            {/* Picker cripto importantes */}
             <Picker
                 selectedValue={criptomoneda}
                 onValueChange={ cripto => obtenerCriptmoneda(cripto)}
@@ -73,7 +78,8 @@ const Formulario = ({moneda, criptomoneda, setMoneda, setCriptomoneda, setConsul
                     />
                 ))}
             </Picker>
-
+            
+            {/* Boton Cotizar */}
             <TouchableHighlight
                 style={styles.btnCotizar}
                 onPress={ () => cotizarPrecio()}

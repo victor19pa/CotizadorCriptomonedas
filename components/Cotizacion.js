@@ -2,6 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
 const Cotizacion = ({resultado}) => {
+    //si hay algo seleccionado o no
     if(Object.keys(resultado).length === 0) return null
     return (
         <View style={styles.resultado}>
